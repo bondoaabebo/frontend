@@ -1,0 +1,60 @@
+.protected-course {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #508cf4, #839bf1);
+  padding: 20px;
+  direction: rtl; /* RTL */
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  text-align: center;
+}
+
+.protected-course input {
+  padding: 12px;
+  width: 250px;
+  border-radius: 12px;
+  border: none;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.protected-course button {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background: #2575fc;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.protected-course button:hover {
+  background: #1a5bcc;
+}
+
+.protected-course .error {
+  margin-top: 10px;
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.course-page {
+  padding: 20px;
+  direction: rtl;
+}
+
+.videos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.video-wrapper video {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}

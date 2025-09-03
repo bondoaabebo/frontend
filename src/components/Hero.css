@@ -1,0 +1,92 @@
+/* frontend/src/components/Hero.css */
+.hero {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, #063386, #2a73f09c);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* Animation */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.hero h2 {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  max-width: 700px;
+  line-height: 1.6;
+
+  /* Delay for smooth entrance */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.btn-main {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: #787ae198;
+  color: #f3f7ff;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  /* Delay for smooth entrance */
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.6s;
+}
+
+.btn-main:hover {
+  background: #2c3d8d;
+  transform: translateY(-2px);
+}
+
+/* ✅ Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive (موبايل) */
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero h2 {
+    font-size: 1rem;
+  }
+
+  .btn-main {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}

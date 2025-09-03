@@ -1,95 +1,111 @@
 .navbar {
-  position: fixed;
+  background: linear-gradient(90deg, #1e3c72, #568deb);
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: sticky;
   top: 0;
-  width: 100%;
-  background: linear-gradient(135deg, #2344b0, #5e5edd);
-  color: #fff;
   z-index: 1000;
-  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+    direction: rtl; /* <-- جعل الاتجاه من اليمين لليسار */
+
 }
 
 .navbar-container {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
-  font-size: 24px;
+  color: white;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .nav {
   display: flex;
+  align-items: center;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
   gap: 15px;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li a {
+  color: white;
   text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: 0.3s;
+  padding: 10px 20px;
+  transition: background 0.3s, transform 0.2s;
+  border-radius: 12px; /* <-- حواف ناعمة */
+  font-weight: 500;
 }
 
 .nav-links li a:hover {
-  background: #1d5e9e;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 /* زر واتساب */
 .btn-whatsapp {
-  background: #25d366;
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: 0.3s;
+  background: #258ad37d;
+  color: white !important;
+  border-radius: 12px; /* <-- حواف ناعمة */
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .btn-whatsapp:hover {
-  background: #1ebe5d;
+  background: #483ce4;
+  transform: scale(1.05);
 }
 
-/* هامبورجر موبايل */
+/* هامبرغر */
 .hamburger {
-  display: none;
-  font-size: 28px;
   background: none;
   border: none;
-  color: #fff;
+  font-size: 1.8rem;
+  color: white;
   cursor: pointer;
+  display: none; /* نظيف للشاشات الكبيرة */
 }
 
-/* Responsive */
+/* استجابة الشاشة */
 @media (max-width: 768px) {
   .nav {
     position: absolute;
-    top: 60px;
-    right: 0;
-    background: #2344b0;
-    flex-direction: column;
-    gap: 10px;
+    top: 100%;
+    left: 0;
     width: 100%;
-    display: none;
+    background: #1e3c72;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
   }
 
   .nav.open {
-    display: flex;
-  }
-
-  .hamburger {
-    display: block;
+    max-height: 200px; /* ارتفاع يظهر القوائم */
   }
 
   .nav-links {
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
+  }
+
+  .nav-links li a {
+    padding: 15px;
+    border-radius: 0; /* يمكن تعديل إذا أحببت */
+  }
+
+  .hamburger {
+    display: block;
   }
 }

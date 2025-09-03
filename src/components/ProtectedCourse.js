@@ -1,21 +1,24 @@
 import React, { useState } from "react";
+import "./ProtectedCourse.css";
 
 function ProtectedCourse({ courseId, user }) {
   const [code, setCode] = useState("");
   const [accessGranted, setAccessGranted] = useState(false);
   const [videosToShow, setVideosToShow] = useState([]);
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
 
     const userCourse = user.courses.find(c => c.courseId === courseId);
-    if (!userCourse) return alert("الكود غير صحيح");
+    if (!userCourse) return setError("الكود غير صحيح");
 
     const payment = userCourse.payments.find(p => p.accessCode === code);
-    if (!payment) return alert("الكود غير صحيح");
+    if (!payment) return setError("الكود غير صحيح");
 
     const now = new Date();
-    if (now > new Date(payment.expiresAt)) return alert("انتهت صلاحية الكود");
+    if (now > new Date(payment.expiresAt)) return setError("انتهت صلاحية الكود");
 
     setVideosToShow(payment.videos);
     setAccessGranted(true);
@@ -23,7 +26,7 @@ function ProtectedCourse({ courseId, user }) {
 
   if (!accessGranted) {
     return (
-      <div style={{ padding: "50px", textAlign: "center" }}>
+      <div className="protected-course">
         <h2>أدخل كود الاشتراك للكورس</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -31,10 +34,10 @@ function ProtectedCourse({ courseId, user }) {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder="ادخل الكود هنا"
-            style={{ padding: "10px", width: "250px", fontSize: "16px" }}
           />
-          <button type="submit" style={{ padding: "10px 20px", marginLeft: "10px" }}>تحقق</button>
+          <button type="submit">تحقق</button>
         </form>
+        {error && <p className="error">{error}</p>}
       </div>
     );
   }
@@ -42,12 +45,16 @@ function ProtectedCourse({ courseId, user }) {
   return (
     <div className="course-page">
       <h1>كورس {courseId}</h1>
-      {videosToShow.map((video, index) => (
-        <video key={index} controls width="100%" poster={`/images/${video}-thumb.jpg`}>
-          <source src={`/videos/${video}.mp4`} type="video/mp4" />
-          متصفحك لا يدعم تشغيل الفيديو
-        </video>
-      ))}
+      <div className="videos-container">
+        {videosToShow.map((video, index) => (
+          <div key={index} className="video-wrapper">
+            <video controls poster={`/images/${video}-thumb.jpg`}>
+              <source src={`/videos/${video}.mp4`} type="video/mp4" />
+              متصفحك لا يدعم تشغيل الفيديو
+            </video>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

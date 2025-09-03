@@ -1,6 +1,5 @@
-// frontend/src/pages/CourseDetail.js
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CourseDetail() {
@@ -33,14 +32,11 @@ export default function CourseDetail() {
         {course.videos.map((video) => (
           <div key={video._id} className="video-card">
             <h4>{video.title}</h4>
-            <video
-              src={video.videoUrl} // يجب أن يكون رابط الفيديو مؤمن
-              controls
-              width="600"
-            />
+            <video src={video.videoUrl} controls />
           </div>
         ))}
       </div>
+      <Link to="/" className="btn">رجوع للكورسات</Link>
     </div>
   );
 }
