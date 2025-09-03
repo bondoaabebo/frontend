@@ -1,32 +1,47 @@
+/* frontend/src/components/Footer.css */
+
 .footer {
-  background: #f7faff;
+  background: #4077d5b6;
   color: #fff;
-  padding: 1.5rem;
+  padding: 2rem 1rem;
   text-align: center;
-  margin-top: 3rem;
+}
+
+.footer-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.footer-text {
+  margin-bottom: 1rem;
   font-size: 0.95rem;
-  line-height: 1.6;
-
-  /* Animation */
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 0.8s ease forwards;
-  animation-delay: 0.5s; /* يظهر بعد المحتوى */
 }
 
-.footer p {
-  margin: 0;
-  font-weight: 500;
+.footer-socials a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 1.2rem;
+  transition: transform 0.3s, color 0.3s;
 }
 
-/* ✅ Animation Keyframes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+.footer-socials a:hover {
+  color: #ffd700;
+  transform: scale(1.2);
+}
+
+/* متجاوب */
+@media (max-width: 600px) {
+  .footer-logo {
+    font-size: 1.2rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .footer-socials a {
+    margin: 0 5px;
+    font-size: 1rem;
   }
 }
