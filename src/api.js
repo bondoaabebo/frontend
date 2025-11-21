@@ -1,7 +1,7 @@
 class ApiClient {
   constructor() {
     // 🔹 استخدم متغير البيئة للباك إند، مع رابط افتراضي كاحتياط
-    this.baseUrl = process.env.REACT_APP_API_URL || "https://mybackend-production-a044.up.railway.app/";
+    this.baseUrl = process.env.REACT_APP_API_URL || "https://mybackend-production-a044.up.railway.app";
   }
 
   // 🟢 دالة مساعدة لإرسال أي طلب
