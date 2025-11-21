@@ -5,14 +5,18 @@ class ApiClient {
     this.baseUrl =
       process.env.NODE_ENV === "production"
         ? "" // في production (نفس الدومين)
-        : "http://localhost:5000"; // في local development
+        : "http://localhost:5001"; // في local development
   }
 
   // 🟢 Helper function
   async request(endpoint, options = {}) {
+    // Merge headers safely so that default Content-Type is not lost when options.headers exists
+    const { headers: optHeaders, ...restOptions } = options;
+    const headers = { "Content-Type": "application/json", ...(optHeaders || {}) };
+
     const res = await fetch(`${this.baseUrl}${endpoint}`, {
-      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-      ...options,
+      ...restOptions,
+      headers,
     });
 
     if (!res.ok) {
