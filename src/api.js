@@ -1,30 +1,36 @@
-// frontend/src/api.js
-
 class ApiClient {
   constructor() {
-    this.baseUrl =
-      process.env.NODE_ENV === "production"
-        ? "" // في production (نفس الدومين)
-        : "http://localhost:5001"; // في local development
+    // 🔹 استخدم متغير البيئة للباك إند، مع رابط افتراضي كاحتياط
+    this.baseUrl = process.env.REACT_APP_API_URL || "https://mybackend-production-a044.up.railway.app/";
   }
 
-  // 🟢 Helper function
+  // 🟢 دالة مساعدة لإرسال أي طلب
   async request(endpoint, options = {}) {
-    // Merge headers safely so that default Content-Type is not lost when options.headers exists
     const { headers: optHeaders, ...restOptions } = options;
     const headers = { "Content-Type": "application/json", ...(optHeaders || {}) };
 
-    const res = await fetch(`${this.baseUrl}${endpoint}`, {
-      ...restOptions,
-      headers,
-    });
+    try {
+      const res = await fetch(`${this.baseUrl}${endpoint}`, {
+        ...restOptions,
+        headers,
+        credentials: "include", // ✅ مهم لو فيه كوكيز أو JWT
+      });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(errorText || `Request failed: ${res.status}`);
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("API Error:", errorText);
+        throw new Error(errorText || `Request failed: ${res.status}`);
+      }
+
+      const contentType = (res.headers.get("content-type") || "").toLowerCase();
+      if (res.status === 204) return null; // لا يوجد محتوى
+      if (!contentType.includes("application/json")) return res.text(); // نص عادي
+
+      return res.json();
+    } catch (err) {
+      console.error("API Exception:", err);
+      throw err; // ⚠️ إعادة رمي الخطأ للمعالجة في الكومبوننت
     }
-
-    return res.json();
   }
 
   // 🟢 كورسات

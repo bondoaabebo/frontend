@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api"; // استدعاء ApiClient
 
 export default function CourseDetail() {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(
-          `https://your-backend.onrender.com/api/courses/${id}`,
-          { headers: { Authorization: token } }
-        );
-        setCourse(res.data);
+        // ✅ استخدام ApiClient بدل axios
+        const data = await api.getCourseById(id);
+        setCourse(data);
       } catch (err) {
-        console.log(err);
+        console.error("خطأ في جلب بيانات الكورس:", err);
       }
     };
+
     fetchCourse();
-  }, [id, token]);
+  }, [id]);
 
   if (!course) return <p>تحميل الكورس...</p>;
 
@@ -28,6 +26,7 @@ export default function CourseDetail() {
     <div className="course-detail-page">
       <h2>{course.title}</h2>
       <p>{course.description}</p>
+
       <div className="videos-list">
         {course.videos.map((video) => (
           <div key={video._id} className="video-card">
@@ -36,6 +35,7 @@ export default function CourseDetail() {
           </div>
         ))}
       </div>
+
       <Link to="/" className="btn">رجوع للكورسات</Link>
     </div>
   );

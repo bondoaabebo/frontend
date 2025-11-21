@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../api"; // استدعاء ApiClient
 
 import "./Login.css";
 
@@ -12,15 +12,13 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
     try {
-      const res = await axios.post(
-        "https://your-backend.onrender.com/api/auth/login",
-        { email, password }
-      );
-      localStorage.setItem("token", res.data.token);
+      const res = await api.loginUser({ email, password }); // ✅ استخدام ApiClient
+      localStorage.setItem("token", res.accessToken); // حفظ التوكن
       navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || "حدث خطأ، حاول مرة أخرى");
+      setError(err.message || "حدث خطأ، حاول مرة أخرى");
     }
   };
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import api from "../api"; // تأكد من المسار الصحيح لـ ApiClient
 import "./Register.css";
 
 export default function Register() {
@@ -14,20 +13,25 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
+
     if (password !== confirmPassword) {
       setError("كلمة المرور وتأكيدها غير متطابقين");
       return;
     }
 
     try {
-      const res = await axios.post(
-        "https://your-backend.onrender.com/api/auth/register",
-        { name, email, password }
-      );
-      localStorage.setItem("token", res.data.token);
+      const deviceId = "device-1"; // يمكن توليد ID ديناميكي إذا أردت
+      const res = await api.registerUser({ name, email, password, deviceId });
+
+      const { accessToken } = res;
+      if (!accessToken) throw new Error("لم يتم استلام التوكن");
+
+      localStorage.setItem("token", accessToken);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || "حدث خطأ، حاول مرة أخرى");
+      console.error(err);
+      setError(err.message || "حدث خطأ أثناء التسجيل");
     }
   };
 
