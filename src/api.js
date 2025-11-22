@@ -1,19 +1,25 @@
 class ApiClient {
   constructor() {
-    // 🔹 استخدم متغير البيئة للباك إند، مع رابط افتراضي كاحتياط
-    this.baseUrl = process.env.REACT_APP_API_URL || "https://mybackend-production-a044.up.railway.app";
+    // 🔹 رابط الباك إند (من env أو الرابط الثابت)
+    this.baseUrl =
+      process.env.REACT_APP_API_URL ||
+      "https://mybackend-production-a044.up.railway.app";
   }
 
-  // 🟢 دالة مساعدة لإرسال أي طلب
+  // 🟢 دالة عامة لعمل أي ريكويست
   async request(endpoint, options = {}) {
     const { headers: optHeaders, ...restOptions } = options;
-    const headers = { "Content-Type": "application/json", ...(optHeaders || {}) };
+
+    const headers = {
+      "Content-Type": "application/json",
+      ...(optHeaders || {}),
+    };
 
     try {
       const res = await fetch(`${this.baseUrl}${endpoint}`, {
         ...restOptions,
         headers,
-        credentials: "include", // ✅ مهم لو فيه كوكيز أو JWT
+        credentials: "include", // لو فيه كوكيز أو JWT
       });
 
       if (!res.ok) {
@@ -23,35 +29,36 @@ class ApiClient {
       }
 
       const contentType = (res.headers.get("content-type") || "").toLowerCase();
-      if (res.status === 204) return null; // لا يوجد محتوى
-      if (!contentType.includes("application/json")) return res.text(); // نص عادي
+
+      if (res.status === 204) return null;
+      if (!contentType.includes("application/json")) return res.text();
 
       return res.json();
     } catch (err) {
       console.error("API Exception:", err);
-      throw err; // ⚠️ إعادة رمي الخطأ للمعالجة في الكومبوننت
+      throw err;
     }
   }
 
-  // 🟢 كورسات
+  // 🟢 Courses
   getCourses() {
-    return this.request("/courses");
+    return this.request("/api/courses");
   }
 
   getCourseById(id) {
-    return this.request(`/courses/${id}`);
+    return this.request(`/api/courses/${id}`);
   }
 
   // 🟢 Auth
   registerUser(data) {
-    return this.request("/auth/register", {
+    return this.request("/api/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
   loginUser(data) {
-    return this.request("/auth/login", {
+    return this.request("/api/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
     });
@@ -59,7 +66,7 @@ class ApiClient {
 
   // 🟢 Vouchers
   redeemVoucher(code) {
-    return this.request("/vouchers/redeem", {
+    return this.request("/api/vouchers/redeem", {
       method: "POST",
       body: JSON.stringify({ code }),
     });
@@ -67,7 +74,7 @@ class ApiClient {
 
   // 🟢 Devices
   getDevices() {
-    return this.request("/devices");
+    return this.request("/api/devices");
   }
 }
 
